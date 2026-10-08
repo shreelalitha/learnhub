@@ -1,10 +1,13 @@
-package com.learnhub.app.features.courseDashboard.model
+package com.learnhub.app.data.room
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.learnhub.app.features.courseDetail.model.Lesson
 
-data class Course(
-    val id: Int,
-    val courseId: Int,
+@Entity(tableName = "courses")
+data class CourseEntity (
+    @PrimaryKey
+    val courseId: String,
     val title: String,
     val instructor: String,
     val completed: Int,
