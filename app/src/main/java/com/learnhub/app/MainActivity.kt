@@ -14,6 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.learnhub.app.features.courseDashboard.screens.CourseListScreen
 import com.learnhub.app.features.login.screens.LoginScreen
 import com.learnhub.app.ui.theme.LearnHubTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,7 +43,7 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable("courses") {
-                        Text("Course screen")
+                        CourseListScreen(onCourseClick = {})
                     }
                 }
             }
