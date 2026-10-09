@@ -2,6 +2,7 @@ package com.learnhub.app.features.login.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.learnhub.app.utils.LoginValidator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,12 +21,12 @@ class LoginViewModel @Inject constructor() : ViewModel() {
         email: String,
         pwd: String
     ){
-        if(email.isBlank() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email.trim()).matches()){
+        if (!LoginValidator.validateEmail(email)) {
             _uiState.value = LoginUiState.Error("invalid_email")
             return
         }
 
-        if(pwd.isBlank() || pwd.length<6){
+        if (!LoginValidator.validatePassword(pwd)) {
             _uiState.value = LoginUiState.Error("invalid_password")
             return
         }

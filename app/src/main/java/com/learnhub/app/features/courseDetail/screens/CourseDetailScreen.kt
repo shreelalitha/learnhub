@@ -25,16 +25,13 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -44,6 +41,7 @@ import com.learnhub.app.features.courseDashboard.screens.HomeBottomBar
 import com.learnhub.app.features.courseDashboard.screens.HomeTopBar
 import com.learnhub.app.features.courseDetail.viewModel.CourseDetailsUiState
 import com.learnhub.app.features.courseDetail.viewModel.CourseDetailsViewModel
+import com.learnhub.app.utils.calcCourseProgress
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -80,11 +78,10 @@ fun CourseDetailScreen(
             is CourseDetailsUiState.Success -> {
                 val course = state.course
                 val completedCount = course.lessons.count { it.completed }
-                val progress = if (course.lessons.isNotEmpty()) {
-                    completedCount.toFloat() / course.lessons.size
-                } else {
-                    0f
-                }
+                val progress = calcCourseProgress(
+                    completedCount = completedCount,
+                    totalLessons = course.lessons.size
+                )
 
                 Column(
                     modifier = Modifier

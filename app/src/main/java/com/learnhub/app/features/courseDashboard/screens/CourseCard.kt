@@ -22,6 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.learnhub.app.data.room.CourseEntity
+import com.learnhub.app.utils.calcCourseProgress
 
 @Composable
 fun CourseCard(

@@ -43,6 +43,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.learnhub.app.data.room.CourseEntity
 import com.learnhub.app.features.courseDashboard.viewModel.CourseUiState
 import com.learnhub.app.features.courseDashboard.viewModel.CoursesViewModel
+import com.learnhub.app.utils.filterCompletedCourses
+import com.learnhub.app.utils.filterContinueCourses
+import com.learnhub.app.utils.filterExploreCourses
 
 @Composable
 fun CourseListScreen(
@@ -109,17 +112,10 @@ fun CourseListScreen(
                     }
 
                     is CourseUiState.Success -> {
-                        val continueCourses = currentState.courses.filter {
-                            it.completed > 0 && it.completed < it.lessonsCount
-                        }
 
-                        val exploreCourses = currentState.courses.filter {
-                            it.completed == 0
-                        }
-
-                        val completedCourses = currentState.courses.filter {
-                            it.lessonsCount > 0 && it.completed >= it.lessonsCount
-                        }
+                        val continueCourses = filterContinueCourses(currentState.courses)
+                        val exploreCourses = filterExploreCourses(currentState.courses)
+                        val completedCourses = filterCompletedCourses(currentState.courses)
 
                         if (currentState.courses.isEmpty()) {
                             Box(
