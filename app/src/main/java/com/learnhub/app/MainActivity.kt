@@ -4,17 +4,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.learnhub.app.features.courseDashboard.screens.CourseListScreen
+import com.learnhub.app.features.courseDetail.screens.CourseDetailScreen
 import com.learnhub.app.features.login.screens.LoginScreen
 import com.learnhub.app.ui.theme.LearnHubTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,7 +37,23 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable("courses") {
-                        CourseListScreen(onCourseClick = {})
+                        CourseListScreen(onCourseClick = { courseId ->
+                                navController.navigate("courseDetail/$courseId")
+                        })
+                    }
+
+                    composable("courseDetail/{courseId}") { backStackEntry ->
+                        val courseId = backStackEntry.arguments
+                            ?.getString("courseId")
+
+                        if (courseId != null) {
+                            CourseDetailScreen(
+                                courseId = courseId,
+                                onBackClick = {
+                                    navController.popBackStack()
+                                }
+                            )
+                        }
                     }
                 }
             }

@@ -1,8 +1,7 @@
 package com.learnhub.app.features.courseDetail.model
 
 data class Lesson(
-    val id: Int,
-    val courseId: Int,
+    val lessonId: String,
     val title: String,
     val completed: Boolean
 )

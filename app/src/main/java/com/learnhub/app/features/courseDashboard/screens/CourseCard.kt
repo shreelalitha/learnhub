@@ -35,7 +35,8 @@ fun CourseCard(
         0f
     }
 
-    val isInProgress = course.completed > 0 && course.completed < course.lessonsCount
+    val isInProgress = course.completed > 0 && course.completed <= course.lessonsCount
+    val isCompleted = course.completed == course.lessonsCount
 
     Card(
         modifier = Modifier.fillMaxWidth().clickable(onClick = onContinueClick),
@@ -74,7 +75,7 @@ fun CourseCard(
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
 
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
                     text = if (isInProgress) {
@@ -95,7 +96,8 @@ fun CourseCard(
                             .fillMaxWidth()
                             .height(6.dp),
                         color = MaterialTheme.colorScheme.primary,
-                        trackColor = MaterialTheme.colorScheme.surfaceVariant
+                        trackColor = MaterialTheme.colorScheme.surfaceVariant,
+                        drawStopIndicator = {}
                     )
 
                     Spacer(modifier = Modifier.height(4.dp))
@@ -107,19 +109,23 @@ fun CourseCard(
                     )
                 }
 
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(4.dp))
 
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.End
-                ) {
-                    Button(
-                        onClick = onContinueClick,
-                        shape = RoundedCornerShape(10.dp)
+                if (!isCompleted) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.End
                     ) {
-                        Text(
-                            text = if (isInProgress) "Continue" else "Start Learning"
-                        )
+                        Button(
+                            onClick = onContinueClick,
+                            shape = RoundedCornerShape(10.dp)
+                        ) {
+                            Text(
+                                text =
+                                    if (isInProgress) "Continue"
+                                    else "Start Learning"
+                            )
+                        }
                     }
                 }
 

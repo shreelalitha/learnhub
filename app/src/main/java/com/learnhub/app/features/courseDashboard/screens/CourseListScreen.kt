@@ -13,11 +13,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -38,6 +40,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.learnhub.app.data.room.CourseEntity
 import com.learnhub.app.features.courseDashboard.viewModel.CourseUiState
 import com.learnhub.app.features.courseDashboard.viewModel.CoursesViewModel
 
@@ -114,6 +117,10 @@ fun CourseListScreen(
                             it.completed == 0
                         }
 
+                        val completedCourses = currentState.courses.filter {
+                            it.lessonsCount > 0 && it.completed >= it.lessonsCount
+                        }
+
                         if (currentState.courses.isEmpty()) {
                             Box(
                                 modifier = Modifier.fillMaxSize(),
@@ -150,6 +157,48 @@ fun CourseListScreen(
                                             onContinueClick = {
                                                 onCourseClick(course.courseId)
                                             }
+                                        )
+                                    }
+
+                                    item {
+                                        HorizontalDivider(
+                                            modifier = Modifier.fillMaxWidth()
+                                                .padding(top = 8.dp),
+                                            color = MaterialTheme.colorScheme.outlineVariant
+                                        )
+                                    }
+                                }
+
+                                if (completedCourses.isNotEmpty()) {
+                                    item {
+                                        Text(
+                                            text = "Completed Courses",
+                                            style = MaterialTheme.typography.titleLarge,
+                                            fontWeight = FontWeight.Bold,
+                                            modifier = Modifier.padding(bottom = 8.dp)
+                                        )
+
+                                        LazyRow(
+                                            modifier = Modifier.padding(bottom = 8.dp),
+                                            horizontalArrangement = Arrangement.spacedBy(12.dp),
+                                            contentPadding = PaddingValues(horizontal = 4.dp)
+                                        ) {
+                                            items(
+                                                completedCourses,
+                                                key = { it.courseId }) { course ->
+                                                CourseCard(
+                                                    course = course,
+                                                    onContinueClick = {
+                                                        onCourseClick(course.courseId)
+                                                    }
+                                                )
+                                            }
+                                        }
+
+                                        HorizontalDivider(
+                                            modifier = Modifier.fillMaxWidth()
+                                                .padding(vertical = 8.dp),
+                                            color = MaterialTheme.colorScheme.outlineVariant
                                         )
                                     }
                                 }
