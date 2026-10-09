@@ -22,4 +22,4 @@ If the app had 1 million users and hundreds of courses, I would:
 
 ## 5. Second Platform — iOS/macOS
 
-I mainly worked on Android for this project. If I had to develop it for iOS/macOS, I would learn Swift and SwiftUI and build a similar app using the same backend API.
+I mainly worked on Android for this project. If I had to develop it for iOS/macOS, I would learn Swift and SwiftUI and build a similar app using the same mock API.
